@@ -1,0 +1,12 @@
+#details{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;     
+    
+}
+#innerid{
+    background-color: fuchsia;
+    padding : 15px;
+    border-radius: 5px;
+}

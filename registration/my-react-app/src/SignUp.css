@@ -1,0 +1,39 @@
+.centered-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+#RegForm {
+
+    text-align: center;
+  }
+  
+  #FormInput {
+    padding: 20px;
+  
+    
+  }
+  
+  #name,#email,#password,#confirm-password {
+    
+    padding: 10px;
+    margin: 10px 0;
+   
+    border: 5px solid #3c1c9c;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none; /* Remove the default input outline on focus */
+  }
+  #submit{
+    background-color: #62529c;
+          border: none;
+          color: #fff;
+          padding: 15px 30px;
+          text-decoration: none;
+          margin: 4px 2px;
+          border-radius: 5px;
+          cursor: pointer;
+          
+  }
+  
