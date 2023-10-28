@@ -33,6 +33,8 @@ import SalesAndInventory from './SalsAndInventory';
 import Customer from './Customer';
 import Products from './Products';
 import AnalyticalReport from './AnalyticalReport';
+import InventoryIcon from './image/inventory';
+import Inventory from './Inventory';
 const drawerWidth = 240;
 
 function DashBoard(props) {
@@ -85,6 +87,15 @@ function DashBoard(props) {
                 <CustomerIcon />
               </ListItemIcon>
               <ListItemText  primary= "Customer" />
+            </ListItemButton>
+           
+        </ListItem>
+        <ListItem>
+            <ListItemButton onClick={e=>{handleNavigation("Inventory")}}>
+              <ListItemIcon>
+                <InventoryIcon />
+              </ListItemIcon>
+              <ListItemText  primary= "Inventory" />
             </ListItemButton>
            
         </ListItem>
@@ -197,6 +208,8 @@ function DashBoard(props) {
       {(mainContent==="Customer")&&<Customer/>}
       {(mainContent==="Analytical Report")&&<AnalyticalReport/>}
       {(mainContent==="Products")&&<Products/>}
+      {(mainContent==="Inventory")&&<Inventory />}
+
     </Box>
   );
 }

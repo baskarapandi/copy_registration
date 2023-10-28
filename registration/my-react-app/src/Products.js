@@ -110,7 +110,7 @@ function Products(){
                             Image
                         </Typography>
                     </Box>
-                    <input type="file" id="img" name="img" accept="image/*" />
+                    <input type="file" style={{padding:20,width:"100%"}}id="img" name="img" accept="image/*" />
                     {responseMessage.url && <Alert severity="error">This is an error alert — check it out!</Alert>}
                 </Box>
                 <Box sx={{display: 'flex',width:"100%",justifyContent: 'space-between',alignItems: 'center' ,m:1}}>

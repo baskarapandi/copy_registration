@@ -13,6 +13,7 @@ import axios from "axios";
 const drawerWidth = 240;
 function SalesAndInventory(){
     const [rows,setRows]= useState([])
+    const [sales,setSales]=useState([]);
     function createData(Products, Sales, ProductsInInventory) {
         return { Products,Sales, ProductsInInventory};
     }
@@ -27,12 +28,30 @@ function SalesAndInventory(){
       console.log("response.data"+response.data.products);
       const res = response.data.products;
       setRows(res);
+      console.log("i am ok");
   }
   )
   .catch(error => {
       console.log(error);
-  })}
-  ,[token])
+  })
+  axios.post('http://localhost:8000/api/salesReport', null, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            },
+    }).then(response => {
+      if(response.data.sales){
+        console.log("response.data"+response.data.sales);
+      const res = response.data.sales;
+      setSales(res);
+      console.log("i am ok");
+      }
+  }
+  )
+  .catch(error => {
+      console.log(error);
+  })
+}
+  ,[token]);
     
     return(
       <Box
@@ -44,7 +63,7 @@ function SalesAndInventory(){
               <Typography >Sales Report</Typography>
             </Box>
             <Box sx={{ minWidth:450 , minHeight:400}}>
-              <SimpleLineChart  />
+              <SimpleLineChart  Sales={sales}/>
             </Box>                         
         </Box>
         <Box sx= {{minWidth:450 , minHeight:500,display:"flex",justifyContent: 'space-around',flexDirection: 'column',alignItems: 'center','&:hover': {

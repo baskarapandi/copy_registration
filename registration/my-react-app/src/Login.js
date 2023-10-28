@@ -57,7 +57,7 @@ function Login(){
             User
           </Box>
           <Box onClick={e=>{handleLogin("seller")}}  sx={{width: '50%',height:'50%',backgroundColor:style.sellerStyle,textAlign:"center",padding:2,cursor:"pointer"}}>
-            seller
+            Seller
           </Box>
         </Box>
         <Box>

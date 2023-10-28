@@ -81,7 +81,7 @@ function UserSignUP(){
           <input
           type='text'
           id="name"
-          placeholder="name"
+          placeholder="Name"
           name ="Name"
           onChange={handleChange}
         /><br></br>
