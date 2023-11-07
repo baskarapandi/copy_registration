@@ -58,7 +58,7 @@ function SellerSignUP(){
         localStorage.setItem("type", type );
         const Token = response.data.token;
         localStorage.setItem("token", Token );
-        navigate('/details');
+        navigate('/dashboard');
       
     })
     .catch(error => {

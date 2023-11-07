@@ -24,7 +24,7 @@ function SellerSignIN(){
             const Token = response.data.token;
             localStorage.setItem("type","seller");
             localStorage.setItem("token", Token );
-            navigate('/details');
+            navigate('/dashboard');
               
             
             /*

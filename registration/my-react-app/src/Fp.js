@@ -6,6 +6,12 @@ import AuthRequired from './AuthRequired';
 import Home from './home';
 import AuthRequiredForUser from './AuthRequiredForUser';
 import DashBoard from './DetailPage';
+import ProductUpdateForm from './seller/ProductUpdateForm';
+import ProductsUpdate from './ProductsUpdate';
+import AnalyticalReport from './AnalyticalReport';
+import Customer from './Customer';
+import SalesAndInventory from './SalsAndInventory';
+import { Inventory } from '@mui/icons-material';
 const Fp = () => {
   return (
     <Router>
@@ -14,7 +20,15 @@ const Fp = () => {
         <Route path="/app" element={<App />} />
         <Route path="/login" element={<Login />}/>
         <Route element={<AuthRequired />}>
-          <Route path="/details" element={<DashBoard />}/>
+          <Route path="/dashboard" element={<DashBoard />}>
+            <Route index element={<SalesAndInventory />} />
+            <Route path="customer" element={<Customer />} />
+            <Route path="analytical" element={<AnalyticalReport />} />
+            <Route path="products" element={<ProductsUpdate />} />
+            <Route path="inventory" element={<Inventory />} />
+            <Route path="support" element={<Inventory />} />
+            <Route path="ProductUpdateForm/:productId" element={<ProductUpdateForm/>} />
+          </Route>
           
         </Route>  
         <Route element={<AuthRequiredForUser />}>

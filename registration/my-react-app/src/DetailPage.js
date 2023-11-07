@@ -14,37 +14,28 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import ProductsIcon from './image/products';
 import CustomerIcon from './image/customer';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
-import SimpleLineChart from './SimpleLineChart';
-import { green, grey, lightGreen } from '@mui/material/colors';
 import { Container } from '@mui/material';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import SalesAndInventory from './SalsAndInventory';
 import Customer from './Customer';
 import Products from './Products';
 import AnalyticalReport from './AnalyticalReport';
 import InventoryIcon from './image/inventory';
 import Inventory from './Inventory';
+import ProductsUpdate from './ProductsUpdate';
 const drawerWidth = 240;
 
 function DashBoard(props) {
   const navigate  = useNavigate();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [mainContent,SetMainContent] = React.useState("SalesAndInventory");
   function handleNavigation(value){
     console.log(value);
-    SetMainContent(value);
+    navigate(`/dashboard/${value}`);
   }
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -73,7 +64,7 @@ function DashBoard(props) {
           
         </ListItem>
         <ListItem  >
-            <ListItemButton onClick={e=>{handleNavigation("Products")}}>
+            <ListItemButton onClick={e=>{handleNavigation("products")}}>
               <ListItemIcon>
                 <ProductsIcon  />
               </ListItemIcon>
@@ -82,7 +73,7 @@ function DashBoard(props) {
            
         </ListItem>
         <ListItem>
-            <ListItemButton onClick={e=>{handleNavigation("Customer")}}>
+            <ListItemButton onClick={e=>{handleNavigation("customer")}}>
               <ListItemIcon>
                 <CustomerIcon />
               </ListItemIcon>
@@ -91,7 +82,7 @@ function DashBoard(props) {
            
         </ListItem>
         <ListItem>
-            <ListItemButton onClick={e=>{handleNavigation("Inventory")}}>
+            <ListItemButton onClick={e=>{handleNavigation("inventory")}}>
               <ListItemIcon>
                 <InventoryIcon />
               </ListItemIcon>
@@ -100,7 +91,7 @@ function DashBoard(props) {
            
         </ListItem>
         <ListItem>
-            <ListItemButton onClick={e=>{handleNavigation("Analytical Report")}}>
+            <ListItemButton onClick={e=>{handleNavigation("analytical")}}>
               <ListItemIcon>
                 <AnalyticsIcon sx={{color:"black"}}/>
               </ListItemIcon>
@@ -109,7 +100,7 @@ function DashBoard(props) {
            
         </ListItem>
         <ListItem>
-            <ListItemButton onClick={e=>{handleNavigation("Support")}} >
+            <ListItemButton onClick={e=>{handleNavigation("support")}} >
               <ListItemIcon>
                 <SupportAgentIcon sx={{color:"black"}}/>
               </ListItemIcon>
@@ -204,11 +195,7 @@ function DashBoard(props) {
           {drawer}
         </Drawer>
       </Box>
-      {(mainContent==="SalesAndInventory")&&<SalesAndInventory/>}
-      {(mainContent==="Customer")&&<Customer/>}
-      {(mainContent==="Analytical Report")&&<AnalyticalReport/>}
-      {(mainContent==="Products")&&<Products/>}
-      {(mainContent==="Inventory")&&<Inventory />}
+      <Outlet /> 
 
     </Box>
   );

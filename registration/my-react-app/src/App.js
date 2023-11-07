@@ -12,7 +12,7 @@ function App() {
   console.log(token);
   useEffect(()=>{
     if (token!=null){
-      navigate('/details');
+      navigate('/dashboard');
     }
   })
   const [type,setType] = useState("customer");
