@@ -14,9 +14,16 @@ const drawerWidth = 240;
 function SalesAndInventory(){
     const [rows,setRows]= useState([])
     const [sales,setSales]=useState([]);
-    function createData(Products, Sales, ProductsInInventory) {
-        return { Products,Sales, ProductsInInventory};
-    }
+    const [newSales,setNewSales]=useState([]);
+    const [selectedProduct, setSelectedProduct] = useState("All");
+
+    
+      const handleProductChange = (value) => {
+        const array = value === "All"
+          ? sales
+          : sales.filter((product) => product.productName === value);
+        setNewSales(array);
+      };
     
     const token = localStorage.getItem("token");
     useEffect(()=>{
@@ -28,6 +35,7 @@ function SalesAndInventory(){
       console.log("response.data"+response.data.products);
       const res = response.data.products;
       setRows(res);
+     
       console.log("i am ok");
   }
   )
@@ -35,15 +43,17 @@ function SalesAndInventory(){
       console.log(error);
   })
   axios.post('http://localhost:8000/api/salesReport', null, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            },
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
     }).then(response => {
       if(response.data.sales){
-        console.log("response.data"+response.data.sales);
-      const res = response.data.sales;
-      setSales(res);
-      console.log("i am ok");
+        console.log("response.data"+response.data.sales[0]);
+        const res = response.data.sales;
+        setSales(res);
+        setNewSales(res);
+        
+        console.log("i am ok");
       }
   }
   )
@@ -61,9 +71,24 @@ function SalesAndInventory(){
         <Box sx= {{ minWidth:450 , minHeight:500,display:"flex",justifyContent: 'space-around',flexDirection: 'column',alignItems: 'center'}}>
             <Box >
               <Typography >Sales Report</Typography>
+              {<select
+                  value={selectedProduct}
+                  onChange={(e) => {
+                    setSelectedProduct(e.target.value);
+                    handleProductChange(e.target.value);
+                  }}
+                  style={{ cursor: 'pointer', margin: '5px' ,borderStyle:"solid",borderColor:"grey",color:"black"}}
+              >
+                  <option value="All" >All</option>
+                  {sales.map((product, index) => (
+                    <option key={index} value={product.productName}>
+                      {product.productName}
+                    </option>
+                  ))}
+              </select>}
             </Box>
             <Box sx={{ minWidth:450 , minHeight:400}}>
-              <SimpleLineChart  Sales={sales}/>
+              <SimpleLineChart  Sales={newSales}/>
             </Box>                         
         </Box>
         <Box sx= {{minWidth:450 , minHeight:500,display:"flex",justifyContent: 'space-around',flexDirection: 'column',alignItems: 'center','&:hover': {

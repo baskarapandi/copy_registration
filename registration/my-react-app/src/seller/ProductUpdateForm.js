@@ -2,7 +2,7 @@ import React, { useEffect,  useState } from 'react';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, TextField } from '@mui/material';
+import { Box, TextField, Typography } from '@mui/material';
 const drawerWidth = 240;
 function ProductUpdateForm() {
   const token = localStorage.getItem("token");
@@ -121,9 +121,26 @@ function ProductUpdateForm() {
   return (
     <Box component="main" sx={{mt:6,display: 'flex',justifyContent: 'space-around',alignItems: 'center' ,  flexWrap:'wrap', p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
     <form style={{width:"100%"}}onSubmit={handleSubmit}>
-    <Box >
-      <img src = {newProduct.product.url} onClick={handleImageClick} alt= "work avala" style={{display: "block", marginLeft: "auto",marginRight: "auto", width: "20%"}} />
+      <Box >
+      <Box onClick={handleImageClick} sx={{padding:5,margin:0.5,display:'flex',flexDirection:"column",justifyContent: 'space-around',alignItems: 'center',borderStyle:'solid',borderColor:"#bdbdbd",borderWidth:1,borderRadius:1,
+    "&:hover": {
+      borderColor:"#424242",
+
+    },
+    "&:fosus":{
+      borderColor:"#0288d1"
+    }
+  }}>
+      <Box>
+      <img src = {newProduct.product.url}  alt= "work avala" style={{display: "block", marginLeft: "auto",marginRight: "auto", width: "20%"}} />
       <input type="file" id="hiddenFileInput" style={{ display: 'none' }}onChange={(e)=>{handleFileChange(e)}}/>
+      </Box>
+      <Box >
+        <Typography>
+          Upload Image
+        </Typography>
+      </Box>
+      </Box>
       </Box>
       <Box sx={{padding:0.5,width:"100%"}}>
         <TextField
@@ -134,7 +151,7 @@ function ProductUpdateForm() {
           onChange={handleFieldChange}
         />
       </Box>
-      <Box sx={{padding:0.5}}>
+      <Box sx={{margin:0.5}}>
         <TextField
           name="price"
           label="Price"
@@ -143,17 +160,7 @@ function ProductUpdateForm() {
           onChange={handleFieldChange}
         />
       </Box>
-      <Box sx={{padding:0.5}}>
-        <TextField
-          name="url"
-          label="Image URL"
-          fullWidth
-          multiline
-          rows={2}
-          value={newProduct.product.url}
-          onChange={handleFieldChange}
-        />
-      </Box>
+      
       
       
       <Box sx={{padding:0.5,width:"100%"}}>

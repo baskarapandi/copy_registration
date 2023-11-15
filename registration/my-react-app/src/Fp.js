@@ -7,7 +7,7 @@ import Home from './home';
 import AuthRequiredForUser from './AuthRequiredForUser';
 import DashBoard from './DetailPage';
 import ProductUpdateForm from './seller/ProductUpdateForm';
-import ProductsUpdate from './ProductsUpdate';
+import ProductsUpdate from './seller/ProductsPagination';
 import AnalyticalReport from './AnalyticalReport';
 import Customer from './Customer';
 import SalesAndInventory from './SalsAndInventory';

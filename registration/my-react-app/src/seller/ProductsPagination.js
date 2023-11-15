@@ -1,129 +1,83 @@
 import { Alert, Box, Button, TextField, Typography } from "@mui/material";
 import react, { useEffect, useState } from "react"
 import axios from "axios"
-import { Image } from "@mui/icons-material";
-import Products from "./Products";
+import { BorderStyle, Image } from "@mui/icons-material";
+import Products from "../Products";
 import { useNavigate } from "react-router-dom";
 const drawerWidth=240;
 function ProductsUpdate(){
     const navigate = useNavigate();
-    const [products,setProducts] = useState([]);
-    const [flag,setFlag]=useState([])
+    const [products, setProducts] = useState([]);
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(1);
+    const [totalPage,setTotalPage] = useState(1);
+    
     const [addProduct,setAddProduct]=useState(false)
-    console.log(addProduct)
-    console.log(flag)
+    let array = [];
+    for(let i=0;i<totalPage;i++){
+        array.push(i+1);
+    }
+    const pageNumbers = [];
+    pageNumbers.push(
+        <option key="default" value={page} >
+          Products per Page
+        </option>
+      );
+    for (let i = 1; i <= 3; i++) {
+      pageNumbers.push(
+        <option key={i} value={i}>
+          {i}
+        </option>
+      );
+    }
+    const handlePageChange = (newlimit)=>{
+        setLimit(newlimit)
+    }
     const token = localStorage.getItem("token");
-    useEffect(()=>{
-        
-        axios.post('http://localhost:8000/api/SellersData', null,{headers: {
-            'Authorization': `Bearer ${token}`
-          }})
-        .then(response => {
-            const array = response.data.array;
-            setProducts([...array]);
-            console.log(response)
-            console.log(response.data.array)
-            console.log(products)
-        })
-        .catch(error => {
-           console.log(error);
-        })
-    },[addProduct])
-    console.log("after 1 useef"+addProduct)
     useEffect(() => {
-            const flagArray =Array(products.length).fill(false);
-            console.log(flagArray)
-            setFlag(flagArray)
-    }, [products]);
-    console.log("after 2 useef"+addProduct)
+        const fetchProducts = async () => {
+          try {
+            const response = await axios.post(`http://localhost:8000/api/productsPaggination?page=${page}&limit=${limit}`,null,{headers: {
+                'Authorization': `Bearer ${token}`
+              }});
+            setProducts(response.data.products);
+            setTotalPage(response.data.total.totalPage)
+            console.log(response.data.products)
+            console.log(response.data.total.totalPage)
+          } catch (error) {
+            console.error('Error fetching products:', error);
+          }
+        };
+    
+        fetchProducts();
+      }, [page, limit]);        
     const handleChangeEdit = (index)=>{
         console.log(products[index])
         const productId = products[index]._id; 
         
         navigate(`/dashboard/ProductUpdateForm/${productId}`)
-        /* console.log(index)
-        setFlag([
-            ...flag.slice(0,index),
-            bool,
-            ...flag.slice(index+1)
-        ]) */
     }
-    console.log("after 47"+addProduct)
-    const [imageSrc, setImageSrc] = useState('placeholder-image.png');
-
     
-        
-    console.log("after 91"+addProduct)
     
-    const handleChangeDelete = (index)=>{
-        console.log("index"+index)
-        const updatedProducts = [...products];
-        updatedProducts.splice(index, 1);
-        const updatedFlag = [...flag];
-        updatedFlag.splice(index,1)
-        setFlag([
-            ...flag.slice(0,index),
-            ...flag.slice(index+1)
-        ])
-        console.log(flag.slice(0,index))
-        console.log(flag.slice(index+1))
-        setProducts(updatedProducts)
-        axios.post('http://localhost:8000/api/SellersDataUpdate', {Products:updatedProducts},{headers: {
-            'Authorization': `Bearer ${token}`
-          }})
-        .then(response => {
-            console.log(response.data);
-
-        })
-        .catch(error => {
-           console.log(error);
-        })
-    }
-    const handleSubmit=(event,index)=>{
-        event.preventDefault();  
-        const data = new FormData(event.currentTarget);
-        const newName = data.get("Product");
-        const newPrice= data.get("Price")
-        const newDescription=data.get("Description")
-        console.log(newDescription)
-        const name = products[index].product.name;
-        const price = products[index].product.price;
-        const description=products[index].product.description;
-        const url= products[index].product.url;
-        const updateProduct =[...products.slice(0,index),
-            {
-             product:{name:newName,
-             price:newPrice,
-             url:url,
-             description:newDescription
-             
-            }
-            },
-            ...products.slice(index+1)
-        ]
-        setProducts(updateProduct)
-        axios.post('http://localhost:8000/api/SellersDataUpdate', {Products:updateProduct},{headers: {
-            'Authorization': `Bearer ${token}`
-          }})
-        .then(response => {
-            console.log(response.data);
-            setFlag([
-                ...flag.slice(0,index),
-                false,
-                ...flag.slice(index+1)
-            ])
-
-        })
-        .catch(error => {
-           console.log(error);
-        })
-
-    }
     const handleAddProduct = (event)=>{
         setAddProduct(!addProduct);
 
     }
-    console.log("after 136"+addProduct)
+    // prev page
+    const handlePrev = (e)=>{
+        e.preventDefault();
+        
+        setPage(page-1);
+        console.log(page);
+        console.log(limit);
+    }
+    // next page
+    const handleNext = (e)=>{
+        e.preventDefault();
+        setPage(page+1);
+        console.log(page);
+        console.log(limit);
+   }
     return(
         <Box component="main" sx={{mt:6,display: 'flex',justifyContent: 'space-around',alignItems: 'center' ,  flexWrap:'wrap', p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
             <Box sx={{width:"100%"}}>
@@ -143,10 +97,8 @@ function ProductsUpdate(){
                             <Box sx={{width:"25%"}}>
                                  <Typography sx={{textAlign:"center"}}>
                                     {object.product.name}
-                                </Typography>
-                                
+                                </Typography>          
                             </Box>
-                            
                             <Box sx={{width:("20%")}}>     
                                 <Box>
                                     <img
@@ -158,13 +110,13 @@ function ProductsUpdate(){
                                 </Box>                                
                                 
                             </Box>
-                            <Box sx={{width:(flag[index]?"35%":"20%")}}>
-                                 <Typography sx={{textAlign:"center"}}>
+                            <Box sx={{width:"20%"}}>
+                                <Typography sx={{textAlign:"center"}}>
                                     {object.product.price}
                                 </Typography>
                             </Box>
                             <Box sx={{width:"35"}}>
-                                <Button sx={{width:"50%",textAlign:"center"}} type="button" onClick={()=>{handleChangeEdit(index)}}>
+                                 <Button sx={{width:"50%",textAlign:"center"}} type="button" onClick={()=>{handleChangeEdit(index)}}>
                                     Edit
                                 </Button>
                             </Box>
@@ -195,6 +147,34 @@ function ProductsUpdate(){
                     }
                     )
                 }
+                </Box>
+                <Box sx={{display:"flex",justifyContent:"space-around"}}>
+                    <Button type="button" onClick={handlePrev} disabled={page === 1}>
+                        Prev
+                    </Button>
+                    {
+                        array.map((page)=>{
+                            return (
+                                <Box sx={{padding:1,color:"grey"}}>
+                                    {page}
+                                </Box>
+                            )
+                        }
+
+                        )
+                    }
+                    <Button type="button" onClick={handleNext} disabled={page === totalPage}>
+                        Next
+                    </Button>
+                </Box>
+                <Box>
+                    {<select
+                        value="productsPerPage"
+                        onChange={(e) => handlePageChange(parseInt(e.target.value))}
+                        style={{ cursor: 'pointer', margin: '5px' }}
+                    >
+                            {pageNumbers}
+                    </select>}
                 </Box>
                 <Box>
                         {addProduct==false && <Box sx={{textAlign:"center",paddingTop:1}}>
