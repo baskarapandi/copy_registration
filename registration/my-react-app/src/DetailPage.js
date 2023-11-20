@@ -147,7 +147,7 @@ function DashBoard(props) {
                 >
                   <MenuIcon />
                 </IconButton>
-                <Typography onClick={e=>{handleNavigation("SalesAndInventory")}}>
+                <Typography onClick={e=>{handleNavigation("SalesandInventory")}}>
                   HOME
                 </Typography>
               

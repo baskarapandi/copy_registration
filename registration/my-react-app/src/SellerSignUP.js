@@ -58,7 +58,7 @@ function SellerSignUP(){
         localStorage.setItem("type", type );
         const Token = response.data.token;
         localStorage.setItem("token", Token );
-        navigate('/dashboard');
+        navigate('/dashboard/products');
       
     })
     .catch(error => {
@@ -115,7 +115,7 @@ function SellerSignUP(){
         <br/>
         <a href ="./login" >login</a>
         <div id = 'notRegistered'>
-                {responseMessage && <p>{responseMessage}</p>}
+          {responseMessage && <p>{responseMessage}</p>}
         </div>
           </div>
         </section>

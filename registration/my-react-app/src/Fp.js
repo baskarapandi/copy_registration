@@ -11,7 +11,7 @@ import ProductsUpdate from './seller/ProductsPagination';
 import AnalyticalReport from './AnalyticalReport';
 import Customer from './Customer';
 import SalesAndInventory from './SalsAndInventory';
-import { Inventory } from '@mui/icons-material';
+import Inventory from "./Inventory";
 const Fp = () => {
   return (
     <Router>
@@ -22,6 +22,7 @@ const Fp = () => {
         <Route element={<AuthRequired />}>
           <Route path="/dashboard" element={<DashBoard />}>
             <Route index element={<SalesAndInventory />} />
+            <Route path="SalesAndInventory" element={<SalesAndInventory />} />
             <Route path="customer" element={<Customer />} />
             <Route path="analytical" element={<AnalyticalReport />} />
             <Route path="products" element={<ProductsUpdate />} />

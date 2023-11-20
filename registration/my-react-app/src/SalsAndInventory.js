@@ -15,14 +15,20 @@ function SalesAndInventory(){
     const [rows,setRows]= useState([])
     const [sales,setSales]=useState([]);
     const [newSales,setNewSales]=useState([]);
+    const [productIndex,setProductIndex] =useState([]);
+    const [newProductIndex,setNewProductIndex] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState("All");
 
     
-      const handleProductChange = (value) => {
+      const handleProductChange = (value,key) => {
         const array = value === "All"
           ? sales
           : sales.filter((product) => product.productName === value);
         setNewSales(array);
+        const indexArray = key=== -1
+          ? productIndex 
+          : productIndex.filter((index)=> index === key)
+          setNewProductIndex(indexArray);
       };
     
     const token = localStorage.getItem("token");
@@ -52,7 +58,12 @@ function SalesAndInventory(){
         const res = response.data.sales;
         setSales(res);
         setNewSales(res);
-        
+        const array = res.map((element,index)=>{
+          return index;
+        });
+        setProductIndex(array);
+        setNewProductIndex(array);
+        console.log(array);
         console.log("i am ok");
       }
   }
@@ -75,11 +86,11 @@ function SalesAndInventory(){
                   value={selectedProduct}
                   onChange={(e) => {
                     setSelectedProduct(e.target.value);
-                    handleProductChange(e.target.value);
+                    handleProductChange(e.target.value,e.target.selectedIndex - 1);
                   }}
                   style={{ cursor: 'pointer', margin: '5px' ,borderStyle:"solid",borderColor:"grey",color:"black"}}
               >
-                  <option value="All" >All</option>
+                  <option key={-1} value="All" >All</option>
                   {sales.map((product, index) => (
                     <option key={index} value={product.productName}>
                       {product.productName}
@@ -88,7 +99,7 @@ function SalesAndInventory(){
               </select>}
             </Box>
             <Box sx={{ minWidth:450 , minHeight:400}}>
-              <SimpleLineChart  Sales={newSales}/>
+              <SimpleLineChart  Sales={newSales} newProductIndex={newProductIndex}/>
             </Box>                         
         </Box>
         <Box sx= {{minWidth:450 , minHeight:500,display:"flex",justifyContent: 'space-around',flexDirection: 'column',alignItems: 'center','&:hover': {

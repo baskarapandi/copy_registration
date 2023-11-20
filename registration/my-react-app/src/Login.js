@@ -13,7 +13,7 @@ function Login(){
   console.log(token);
   useEffect(()=>{
     if (token!=null){
-      if(localStorage.getItem("type")=="seller")navigate('/details');
+      if(localStorage.getItem("type")=="seller")navigate('/dashboard');
       else if(localStorage.getItem("type")=="user")navigate('/home');
     }
   })

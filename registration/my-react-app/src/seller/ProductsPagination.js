@@ -14,8 +14,8 @@ function ProductsUpdate(){
     
     const [addProduct,setAddProduct]=useState(false)
     let array = [];
-    for(let i=0;i<totalPage;i++){
-        array.push(i+1);
+    for(let i=1;i<=totalPage;i++){
+        array.push(i);
     }
     const pageNumbers = [];
     pageNumbers.push(
@@ -23,7 +23,7 @@ function ProductsUpdate(){
           Products per Page
         </option>
       );
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= totalPage; i++) {
       pageNumbers.push(
         <option key={i} value={i}>
           {i}
